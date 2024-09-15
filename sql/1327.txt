@@ -1,0 +1,23 @@
+SELECT 
+    product_name, 
+    SUM(unit) AS unit 
+FROM (
+    SELECT 
+        products.product_id, 
+        products.product_name, 
+        orders.order_date, 
+        orders.unit 
+    FROM 
+        products
+    INNER JOIN 
+        orders 
+    ON 
+        products.product_id = orders.product_id
+) AS t
+WHERE 
+    MONTH(t.order_date) = 2
+    AND YEAR(t.order_date) = 2020
+GROUP BY 
+    product_name
+HAVING 
+    SUM(unit) >= 100;
